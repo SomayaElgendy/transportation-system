@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Trip, Ticket, Profile
 from .forms import TicketForm
+from django.urls import reverse
 
 # Create your views here.
 def home(request):
@@ -20,11 +21,13 @@ def book_ticket(request, trip_id):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.trip = trip
-            # Assuming the user is logged in and has Profile
-            ticket.passenger = request.user.profile
+            ticket.passenger = request.user  # Assume user is logged in
             ticket.save()
-            return HttpResponse("Booking successful!")
+            return redirect('booking_success')  # 🔥 Redirect to success
     else:
         form = TicketForm()
 
     return render(request, 'core/book_ticket.html', {'form': form, 'trip': trip})
+
+def booking_success(request):
+    return render(request, 'core/booking_success.html')
