@@ -6,7 +6,7 @@ from django.urls import reverse
 
 # Create your views here.
 def home(request):
-    return HttpResponse("<h1>Welcome to the Transportation System</h1>")
+    return render(request, 'core/home.html')
 
 
 def trip_list(request):
