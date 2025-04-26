@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Trips</title>
+</head>
+<body>
+    <h1>Available Trips</h1>
+
+    <ul>
+        {% for trip in trips %}
+            <li>
+                Route: {{ trip.route }} <br>
+                Departure: {{ trip.departure_time }} <br>
+                Arrival: {{ trip.arrival_time }} <br>
+                Bus: {{ trip.bus }}
+            </li>
+        {% empty %}
+            <li>No trips available right now.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

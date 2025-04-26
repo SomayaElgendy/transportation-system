@@ -45,7 +45,7 @@ class Trip(models.Model):
     bus = models.ForeignKey('Bus', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Trip {self.route_name} at {self.departure_time}"
+        return f"Trip from {self.route.start_town} to {self.route.end_town} at {self.departure_time}"
 
 
 class Ticket(models.Model):
