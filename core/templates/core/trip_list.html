@@ -10,10 +10,12 @@
     <ul>
         {% for trip in trips %}
             <li>
-                Route: {{ trip.route }} <br>
-                Departure: {{ trip.departure_time }} <br>
-                Arrival: {{ trip.arrival_time }} <br>
-                Bus: {{ trip.bus }}
+                <a href="{% url 'book_ticket' trip.id %}">
+                    Route: {{ trip.route.origin.name }} → {{ trip.route.destination.name }} |
+                    Departure: {{ trip.departure_time }} |
+                    Arrival: {{ trip.arrival_time }} |
+                    Bus: {{ trip.bus }}
+                </a>
             </li>
         {% empty %}
             <li>No trips available right now.</li>
