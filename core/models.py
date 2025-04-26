@@ -41,22 +41,25 @@ class Bus(models.Model):
 class Trip(models.Model):
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
-    route_name = models.CharField(max_length=100)  # Later: ForeignKey to Route
-    bus_number = models.CharField(max_length=20)   # Later: ForeignKey to Bus
+    route = models.ForeignKey('Route', on_delete=models.CASCADE)
+    bus = models.ForeignKey('Bus', on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Trip {self.route_name} at {self.departure_time}"
 
 
 class Ticket(models.Model):
+    trip = models.ForeignKey('Trip', on_delete=models.CASCADE)
+    passenger = models.ForeignKey('Profile', on_delete=models.CASCADE)
     seat_number = models.PositiveIntegerField()
     booking_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Seat {self.seat_number}"
+        return f"Seat {self.seat_number} - {self.passenger.username}"
 
 
 class Payment(models.Model):
+    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     payment_time = models.DateTimeField(auto_now_add=True)
     method = models.CharField(max_length=50)  # Example: Credit Card, PayPal
