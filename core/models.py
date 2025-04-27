@@ -7,6 +7,7 @@ class Profile(AbstractUser):
         ('admin', 'Admin'),
         ('staff', 'Staff'),
         ('passenger', 'Passenger'),
+        ('DRIVER', 'Driver'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
