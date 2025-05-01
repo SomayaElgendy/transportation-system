@@ -30,7 +30,7 @@ def home(request):
 
 
 
-@login_required
+
 def trip_list(request):
     form = TripSearchForm(request.GET or None)
     trips = Trip.objects.all()
