@@ -1,25 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Available Trips</title>
-</head>
-<body>
-    <h1>Available Trips</h1>
+{% extends 'core/base.html' %}
+{% block title %}Available Trips{% endblock %}
+{% block body_class %}bg-green{% endblock %}
 
-    <ul>
-        {% for trip in trips %}
-            <li>
-                <a href="{% url 'book_ticket' trip.id %}">
-                    Route: {{ trip.route.origin.name }} → {{ trip.route.destination.name }} |
-                    Departure: {{ trip.departure_time }} |
-                    Arrival: {{ trip.arrival_time }} |
-                    Bus: {{ trip.bus }}
-                </a>
-            </li>
-        {% empty %}
-            <li>No trips available right now.</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Available Trips</h1>
+
+    <form method="get" class="mb-5 row g-3">
+        <div class="col-md-4">
+            <label style="color: black;">{{ form.start_town.label }}</label>
+            {{ form.start_town }}
+        </div>
+        <div class="col-md-4">
+            <label style="color: black;">{{ form.end_town.label }}</label>
+            {{ form.end_town }}
+        </div>
+        <div class="col-md-4">
+            <label style="color: black;">{{ form.departure_date.label }}</label>
+            {{ form.departure_date }}
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-success w-100">Search</button>
+        </div>
+    </form>
+
+    {% if trips %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for trip in trips %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ trip.route.start_town }} ➔ {{ trip.route.end_town }}
+                        </h5>
+                        <p class="card-text mb-2">
+                            <strong>Departure:</strong> {{ trip.departure_time|date:"D, M d, H:i" }}<br>
+                            <strong>Arrival:</strong> {{ trip.arrival_time|date:"H:i" }}<br>
+                            <strong>Bus:</strong> {{ trip.bus.bus_number }} ({{ trip.bus.capacity }} seats)
+                        </p>
+                        <a href="{% url 'book_ticket' trip.id %}" class="btn btn-outline-primary w-100">Book This Trip</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No trips available for your selection. Please try another search.</p>
+    {% endif %}
+
+    <div class="text-center mt-5">
+        <a href="{% url 'trip_list' %}" class="btn btn-secondary me-3">Reset Filters</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+</div>
+{% endblock %}

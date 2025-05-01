@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Staff - View Payments{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">All Payments</h1>
+
+        {% if payments %}
+            <ul class="list-group">
+                {% for payment in payments %}
+                    <li class="list-group-item">
+                        <strong>Payment ID:</strong> {{ payment.id }} <br>
+                        <strong>Amount:</strong> ${{ payment.amount }} <br>
+                        <strong>Method:</strong> {{ payment.method }} <br>
+                        <strong>Time:</strong> {{ payment.payment_time|date:"F j, Y, g:i a" }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">No payments found.</p>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

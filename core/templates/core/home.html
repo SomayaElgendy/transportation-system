@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home - Transportation System</title>
-</head>
-<body>
-    <h1>Welcome to the Transportation System</h1>
+{% extends 'core/base.html' %}
+{% block title %}Home{% endblock %}
+{% block body_class %}bg-image{% endblock %}
 
-    <ul>
-        <li><a href="{% url 'trip_list' %}">View Available Trips</a></li>
-        <!-- In the future we will add: Login, Profile, Admin Dashboard, etc -->
-    </ul>
-</body>
-</html>
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4" style="font-weight: 900;">Welcome to the Transportation System</h1>
+
+    <div class="mt-4">
+        <a href="{% url 'trip_list' %}" class="btn btn-primary m-2">View Available Trips</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary m-2">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-success m-2">Sign Up</a>
+    </div>
+</div>
+{% endblock %}
+

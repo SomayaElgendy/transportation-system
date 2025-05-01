@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings  
+
 
 #User with different role choices
 class Profile(AbstractUser):
     ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('staff', 'Staff'),
-        ('passenger', 'Passenger'),
+        ('ADMIN', 'Admin'),
+        ('STAFF', 'Staff'),
+        ('PASSENGER', 'Passenger'),
         ('DRIVER', 'Driver'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
@@ -39,14 +41,30 @@ class Bus(models.Model):
         return self.bus_number
 
 
+
 class Trip(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
+    driver = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'role': 'DRIVER'}
+    )
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
-    route = models.ForeignKey('Route', on_delete=models.CASCADE)
-    bus = models.ForeignKey('Bus', on_delete=models.CASCADE)
+
+    STATUS_CHOICES = [
+        ('on_time', 'On Time'),
+        ('delayed', 'Delayed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='on_time')
 
     def __str__(self):
-        return f"Trip from {self.route.start_town} to {self.route.end_town} at {self.departure_time}"
+        return f"{self.route} - {self.departure_time.strftime('%Y-%m-%d %H:%M')}"
 
 
 class Ticket(models.Model):
@@ -55,8 +73,12 @@ class Ticket(models.Model):
     seat_number = models.PositiveIntegerField()
     booking_time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('trip', 'seat_number') 
+
     def __str__(self):
         return f"Seat {self.seat_number} - {self.passenger.username}"
+    
 
 
 class Payment(models.Model):
@@ -70,8 +92,9 @@ class Payment(models.Model):
 
 
 class Notification(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
     sent_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Notification at {self.sent_time}"
+        return f"Notification at {self.sent_time} for {self.user.username}"

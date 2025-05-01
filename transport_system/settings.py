@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ BASE_DIR / 'core/static' ] 
 WSGI_APPLICATION = 'transport_system.wsgi.application'
 
 
@@ -122,3 +125,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.Profile'
+
+# Email settings for console output
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#frontend related
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'

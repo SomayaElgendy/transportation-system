@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">Welcome, {{ request.user.username }}!</h1>
+        <p class="text-center">Your role is: <strong>{{ request.user.get_role_display }}</strong></p>
+
+        <div class="mt-4 text-center">
+            {% if request.user.profile.role == 'admin' %}
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Admin Dashboard</a>
+            {% elif request.user.profile.role == 'staff' %}
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Staff Dashboard</a>
+            {% elif request.user.profile.role == 'driver' %}
+                <a href="{% url 'driver_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Driver Dashboard</a>
+            {% else %}
+                <a href="{% url 'home' %}" class="btn btn-outline-primary btn-sm">Back to Home</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm ms-2">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

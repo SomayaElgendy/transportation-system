@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">Welcome, {{ request.user.username }} (Staff)!</h1>
+
+        <h3>Manage:</h3>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'staff_view_trips' %}" class="text-primary">View All Trips</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'staff_view_tickets' %}" class="text-primary">View All Tickets</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'staff_view_payments' %}" class="text-primary">View All Payments</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/admin/" class="text-primary">Go to Full Staff Panel</a>
+            </li>
+        </ul>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

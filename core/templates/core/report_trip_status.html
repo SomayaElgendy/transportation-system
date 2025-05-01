@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Report Trip Status{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">Report Trip Status</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="trip_id" class="form-label">Select Trip:</label>
+                <select name="trip_id" class="form-select" required>
+                    {% for trip in trips %}
+                        <option value="{{ trip.id }}">{{ trip.route.start_town }} ➔ {{ trip.route.end_town }} | {{ trip.departure_time }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Select Status:</label>
+                <select name="status" class="form-select" required>
+                    <option value="on_time">On Time</option>
+                    <option value="delayed">Delayed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success w-100">Update Status</button>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'driver_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

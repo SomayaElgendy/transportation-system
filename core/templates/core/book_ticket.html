@@ -1,17 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Book a Trip</title>
-</head>
-<body>
-    <h1>Book Trip: {{ trip.route.origin.name }} to {{ trip.route.destination.name }}</h1>
+{% extends 'core/base.html' %}
+{% block title %}Book Ticket{% endblock %}
+{% block body_class %}bg-green{% endblock %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Book Seat</button>
-    </form>
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center mb-4">Book Your Trip</h2>
 
-</body>
-</html>
+        <p><strong>Route:</strong> {{ trip.route.start_town }} ➔ {{ trip.route.end_town }}</p>
+        <p><strong>Departure:</strong> {{ trip.departure_time }}</p>
+        <p><strong>Arrival:</strong> {{ trip.arrival_time }}</p>
+        <p><strong>Available Seats:</strong> {{ available_seats|length }}</p>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="seat_number" class="form-label">Seat number</label>
+                <select name="seat_number" id="seat_number" class="form-select">
+                    {% for seat in available_seats %}
+                        <option value="{{ seat }}">Seat {{ seat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="payment_method" class="form-label">Payment Method</label>
+                <select name="payment_method" id="payment_method" class="form-select">
+                    <option value="cash">Cash</option>
+                    <option value="card">Credit/Debit Card</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Confirm Booking</button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'trip_list' %}" class="btn btn-outline-secondary btn-sm">Back to Trips</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm ms-2">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

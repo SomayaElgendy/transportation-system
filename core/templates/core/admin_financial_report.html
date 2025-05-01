@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Financial Report{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">Financial Report 📊</h1>
+
+        <h3>Total Revenue: <strong>${{ total_revenue }}</strong></h3>
+
+        <h4 class="mt-4">Payments:</h4>
+        <ul class="list-group">
+            {% for payment in payments %}
+                <li class="list-group-item">
+                    <strong>Amount:</strong> ${{ payment.amount }} |
+                    <strong>Method:</strong> {{ payment.method }} |
+                    <strong>Time:</strong> {{ payment.payment_time|date:"F j, Y, g:i a" }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Admin Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

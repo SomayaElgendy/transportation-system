@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Staff - View Trips{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">All Trips</h1>
+
+        {% if trips %}
+            <ul class="list-group">
+                {% for trip in trips %}
+                    <li class="list-group-item">
+                        <strong>Trip ID:</strong> {{ trip.id }} <br>
+                        <strong>Departure:</strong> {{ trip.departure_time }} <br>
+                        <strong>Arrival:</strong> {{ trip.arrival_time }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">No trips found.</p>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

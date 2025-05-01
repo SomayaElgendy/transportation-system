@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Your Assigned Trips{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">Your Assigned Trips</h1>
+
+        {% if trips %}
+            <ul class="list-group">
+                {% for trip in trips %}
+                    <li class="list-group-item">
+                        <strong>{{ trip.route.start_town }} ➔ {{ trip.route.end_town }}</strong><br>
+                        <span>Departure: {{ trip.departure_time }}</span><br>
+                        <span>Status: <strong>{{ trip.status }}</strong></span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">No trips assigned yet.</p>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'driver_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

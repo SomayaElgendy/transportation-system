@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center mb-4" style="font-weight: 800;">Welcome to Admin Dashboard!</h2>
+
+        <ul class="list-unstyled">
+            <li class="mb-3">
+                <a href="{% url 'admin_financial_report' %}" class="btn btn-primary w-100">View Revenue Reports</a>
+            </li>
+            <li class="mb-3">
+                <a href="/admin/" class="btn btn-secondary w-100">Go to Full Admin Panel</a>
+            </li>
+        </ul>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

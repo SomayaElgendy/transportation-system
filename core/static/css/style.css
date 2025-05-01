@@ -1,0 +1,88 @@
+.bg-image {
+    background-image: url("/static/images/bus3.jpg"); /* 🔁 no template tags here */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+}
+
+/* Gradient Green Pages */
+.bg-green {
+    background: linear-gradient(to right, #dfffb8, #23560c);
+    background-attachment: fixed;
+    color: white;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    transition: 0.3s ease-in-out;
+}
+
+/* Remove the existing select.form-control rules and replace with: */
+.form-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+
+/* Booking Success Page Styles */
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: #28a745;  /* Green color for success */
+    font-size: 36px;
+}
+
+p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+button {
+    font-size: 16px;
+    padding: 12px;
+}
+
+/* Admin Dashboard Styles */
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: #055426;  /* Blue color for heading */
+    font-size: 36px;
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul li a {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+button {
+    font-size: 16px;
+    padding: 12px;
+    width: 100%;
+}
+
+

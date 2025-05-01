@@ -1,13 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Booking Success</title>
-</head>
-<body>
-    <h1>Booking Successful!</h1>
-    <p>Thank you for booking your trip with us. Safe travels! 🚍</p>
+{% extends 'core/base.html' %}
 
-    <a href="{% url 'trip_list' %}">Back to Trips</a>
-</body>
-</html>
+{% block title %}Booking Successful!{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4 text-center" style="width: 100%; max-width: 600px;">
+        <h2 class="mb-4 text-success" style="font-weight: 800;">Booking Successful! 🎉</h2>
+
+        <p><strong>Trip:</strong> {{ trip.route.start_town }} ➔ {{ trip.route.end_town }}</p>
+        <p><strong>Departure:</strong> {{ trip.departure_time|date:"l, F j, Y, g:i a" }}</p>
+        <p><strong>Arrival:</strong> {{ trip.arrival_time|date:"l, F j, Y, g:i a" }}</p>
+        <p><strong>Seat Number:</strong> {{ seat_number }}</p>
+        <p><strong>Payment Method:</strong> {{ payment_method }}</p>
+
+        <div class="mt-4">
+            <a href="{% url 'trip_list' %}" class="btn btn-primary w-100">Back to Trips</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

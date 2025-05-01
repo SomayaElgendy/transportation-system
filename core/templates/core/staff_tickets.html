@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Staff - View Tickets{% endblock %}
+
+{% block body_class %}bg-green{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4" style="font-weight: 800;">All Tickets</h1>
+
+        {% if tickets %}
+            <ul class="list-group">
+                {% for ticket in tickets %}
+                    <li class="list-group-item">
+                        <strong>Ticket ID:</strong> {{ ticket.id }} <br>
+                        <strong>Passenger:</strong> {{ ticket.passenger.username }} <br>
+                        <strong>Seat:</strong> {{ ticket.seat_number }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center">No tickets found.</p>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'staff_dashboard' %}" class="btn btn-outline-primary btn-sm">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
