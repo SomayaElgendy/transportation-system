@@ -11,13 +11,12 @@ admin.site.register(Ticket)
 admin.site.register(Payment)
 admin.site.register(Notification)
 
-# Unregister old Trip registration if it exists
+#the coming lines are for adding driver field in Trip, so I unregistered trip and added it again bcs I forgot to add it at the beginning
 try:
     admin.site.unregister(Trip)
 except admin.sites.NotRegistered:
     pass
 
-# Register Trip with custom TripAdmin
 class TripAdmin(admin.ModelAdmin):
     list_display = ('route', 'bus', 'driver', 'departure_time', 'arrival_time')
     list_filter = ('route', 'departure_time', 'driver')

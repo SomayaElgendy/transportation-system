@@ -1,3 +1,7 @@
+'''This file is used to define how our models are converted to JSON format 
+and validated for API use. These serializers make sure we send and receive clean, 
+structured data between the backend and the frontend or mobile apps.
+'''
 from rest_framework import serializers
 from .models import Ticket, Notification, Trip
 
@@ -15,7 +19,7 @@ class TripSerializer(serializers.ModelSerializer):
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ['trip', 'seat_number']  # Passenger will come from logged-in user
+        fields = ['trip', 'seat_number']  
 
     def validate(self, data):
         trip = data.get('trip')
@@ -30,11 +34,6 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['id', 'trip', 'seat_number']
-
-class TripSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trip
-        fields = ['id', 'route', 'departure_time', 'arrival_time']
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

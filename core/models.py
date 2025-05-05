@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings  
 
-
 #User with different role choices
 class Profile(AbstractUser):
     ROLE_CHOICES = [
