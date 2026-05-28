@@ -12,6 +12,7 @@ db.sqlite3
 *.env
 *.venv
 *.virtualenv
+venv/
 .venv/
 .env/
 

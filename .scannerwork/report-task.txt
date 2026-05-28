@@ -1,0 +1,6 @@
+projectKey=easytransit
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=easytransit
+ceTaskId=571c6bf9-2769-4099-abee-e679f78802e2
+ceTaskUrl=http://localhost:9000/api/ce/task?id=571c6bf9-2769-4099-abee-e679f78802e2

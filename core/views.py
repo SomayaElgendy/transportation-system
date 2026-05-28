@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Trip, Ticket, Profile, Notification, Payment
-from .forms import TicketForm, TripSearchForm, PassengerSignupForm, BookingForm
+from .models import Trip, Ticket, Profile, Notification, Payment, LostItem
+from .forms import TicketForm, TripSearchForm, PassengerSignupForm, BookingForm, LostItemForm, LostItemStatusForm
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -132,6 +132,7 @@ def book_ticket(request, trip_id):
     })
 
 #booking successful page 
+@login_required
 def booking_success(request):
     return render(request, 'core/booking_success.html')
 
@@ -238,7 +239,7 @@ def report_trip_status(request):
     if request.method == 'POST':
         trip_id = request.POST.get('trip_id')
         status = request.POST.get('status')
-        trip = Trip.objects.get(id=trip_id, driver=request.user)
+        trip = get_object_or_404(Trip, id=trip_id, driver=request.user)
         trip.status = status
         trip.save()
         messages.success(request, 'Trip status updated successfully!') 
@@ -263,7 +264,68 @@ def signup_passenger(request):
     # and stayy on page
     return render(request, 'core/signup.html', {'form': form})
 
+@login_required
+def report_lost_item(request):
+    if request.user.role != 'PASSENGER':
+        return redirect('dashboard')
 
+    if request.method == 'POST':
+        form = LostItemForm(request.POST)
+        if form.is_valid():
+            lost_item = form.save(commit=False)
+            lost_item.passenger = request.user
+            lost_item.save()
+            messages.success(request, 'Lost item report submitted successfully.')
+            return redirect('my_lost_items')
+    else:
+        form = LostItemForm()
+
+    return render(request, 'core/report_lost_item.html', {'form': form})
+
+
+@login_required
+def my_lost_items(request):
+    if request.user.role != 'PASSENGER':
+        return redirect('dashboard')
+
+    items = LostItem.objects.filter(passenger=request.user).order_by('-reported_time')
+    return render(request, 'core/my_lost_items.html', {'items': items})
+
+
+@login_required
+@staff_required
+def staff_lost_items(request):
+    items = LostItem.objects.all().order_by('-reported_time')
+    return render(request, 'core/staff_lost_items.html', {'items': items})
+
+
+@login_required
+@staff_required
+def update_lost_item_status(request, item_id):
+    item = get_object_or_404(LostItem, id=item_id)
+
+    if request.method == 'POST':
+        form = LostItemStatusForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Lost item status updated successfully.')
+            return redirect('staff_lost_items')
+    else:
+        form = LostItemStatusForm(instance=item)
+
+    return render(request, 'core/update_lost_item_status.html', {
+        'form': form,
+        'item': item
+    })
+
+@login_required
+def lost_found_redirect(request):
+    if request.user.role == 'PASSENGER':
+        return redirect('my_lost_items')
+    elif request.user.role == 'STAFF':
+        return redirect('staff_lost_items')
+    else:
+        return redirect('dashboard')
 
 
 

@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from core.api_views import book_ticket_api, my_tickets, trip_list, my_notifications_api
 from core.views import staff_view_trips, staff_view_tickets, staff_view_payments, admin_financial_report,view_assigned_trips, report_trip_status, signup_passenger
-
+from core.views import report_lost_item, my_lost_items, staff_lost_items, update_lost_item_status,lost_found_redirect
 
 
 urlpatterns = [
@@ -33,4 +33,10 @@ urlpatterns = [
     path('adminn/financial-report/', admin_financial_report, name='admin_financial_report'),
     path('driver/assigned-trips/', view_assigned_trips, name='view_assigned_trips'),
     path('driver/report-trip-status/', report_trip_status, name='report_trip_status'),
-]
+    #lost and found
+    path('lost-items/report/', report_lost_item, name='report_lost_item'),
+    path('lost-items/my/', my_lost_items, name='my_lost_items'),
+    path('staff/lost-items/', staff_lost_items, name='staff_lost_items'),
+    path('staff/lost-items/<int:item_id>/update/', update_lost_item_status, name='update_lost_item_status'),
+    path('lost-found/', lost_found_redirect, name='lost_found_redirect'),
+    ]

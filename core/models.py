@@ -10,22 +10,22 @@ class Profile(AbstractUser):
         ('PASSENGER', 'Passenger'),
         ('DRIVER', 'Driver'),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='PASSENGER')
 
     def __str__(self):
         return f"{self.username} ({self.role})"
 
 
 class Town(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Route(models.Model):
-    start_town = models.CharField(max_length=100)  # Later: ForeignKey to Town
-    end_town = models.CharField(max_length=100)    # Later: ForeignKey to Town
+    start_town = models.CharField(max_length=100)  
+    end_town = models.CharField(max_length=100)    
     duration = models.DurationField()
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Route(models.Model):
 
 
 class Bus(models.Model):
-    bus_number = models.CharField(max_length=20)
+    bus_number = models.CharField(max_length=20,unique=True)
     capacity = models.PositiveIntegerField()
 
     def __str__(self):
@@ -84,8 +84,11 @@ class Payment(models.Model):
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     payment_time = models.DateTimeField(auto_now_add=True)
-    method = models.CharField(max_length=50)  # Example: Credit Card, PayPal
-
+    PAYMENT_METHOD_CHOICES = [
+        ('cash', 'Cash'),
+        ('card', 'Credit/Debit Card'),
+    ]
+    method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
     def __str__(self):
         return f"{self.amount} paid on {self.payment_time}"
 
@@ -97,3 +100,34 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification at {self.sent_time} for {self.user.username}"
+
+class LostItem(models.Model):
+    STATUS_CHOICES = [
+        ('reported', 'Reported'),
+        ('found', 'Found'),
+        ('returned', 'Returned'),
+        ('closed', 'Closed'),
+    ]
+
+    passenger = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'PASSENGER'}
+    )
+    trip = models.ForeignKey(
+        'Trip',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    item_name = models.CharField(max_length=100)
+    description = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='reported'
+    )
+    reported_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.item_name} - {self.status}"

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Report Lost Item</h2>
+    <p class="text-muted">Use this form to report an item lost during a trip.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Related Trip</label>
+            {{ form.trip }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Item Name</label>
+            {{ form.item_name }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Report</button>
+        <a href="{% url 'trip_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lost & Found Management</h2>
+    <p class="text-muted">Staff can review lost item reports and update their status.</p>
+
+    {% if items %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Passenger</th>
+                    <th>Description</th>
+                    <th>Trip</th>
+                    <th>Status</th>
+                    <th>Reported Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.passenger.username }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        {% if item.trip %}
+                            {{ item.trip }}
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </td>
+                    <td>{{ item.get_status_display }}</td>
+                    <td>{{ item.reported_time }}</td>
+                    <td>
+                        <a href="{% url 'update_lost_item_status' item.id %}" class="btn btn-sm btn-warning">
+                            Update Status
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No lost item reports available.</p>
+    {% endif %}
+</div>
+{% endblock %}

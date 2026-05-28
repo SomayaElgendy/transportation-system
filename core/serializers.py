@@ -20,14 +20,19 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ['trip', 'seat_number']  
-
+    #-----Security modification
     def validate(self, data):
         trip = data.get('trip')
         seat_number = data.get('seat_number')
 
-        # Check if seat already booked
+        if seat_number < 1 or seat_number > trip.bus.capacity:
+            raise serializers.ValidationError(
+                f"Seat number must be between 1 and {trip.bus.capacity}."
+            )
+    #-----------------------
         if Ticket.objects.filter(trip=trip, seat_number=seat_number).exists():
             raise serializers.ValidationError("Seat already booked for this trip.")
+
         return data
 
 class TicketSerializer(serializers.ModelSerializer):

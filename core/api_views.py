@@ -8,12 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])  #user must be logged in
 def book_ticket_api(request):
-    serializer = BookingSerializer(data=request.data) #validates the input
-    # if the input is valdi, savee the ticket and send it to passenger
+    serializer = BookingSerializer(data=request.data)
+
     if serializer.is_valid():
         ticket = serializer.save(passenger=request.user)
-        return Response({"message": "Ticket booked successfully!"})
-    # if not, return response 400 code (invalid data) 
+        return Response({
+            "message": "Ticket booked successfully!",
+            "ticket_id": ticket.id
+        })
+
     return Response(serializer.errors, status=400)
 
 #API shows the logged-in user their booked tickets

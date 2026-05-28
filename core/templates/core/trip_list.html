@@ -50,8 +50,9 @@
 
     <div class="text-center mt-5">
         <a href="{% url 'trip_list' %}" class="btn btn-secondary me-3">Reset Filters</a>
+        <a href="{% url 'lost_found_redirect' %}" class="btn btn-warning me-3">Lost & Found</a>
+        <a href="{% url 'my_tickets_api' %}" class="btn btn-info me-3">My Tickets</a>
         <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-        <a href="{% url 'logout' %}" class="btn btn-danger">My Tickets</a>
     </div>
 </div>
 {% endblock %}

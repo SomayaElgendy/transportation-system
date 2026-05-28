@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Update Lost Item Status</h2>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <p><strong>Item:</strong> {{ item.item_name }}</p>
+            <p><strong>Passenger:</strong> {{ item.passenger.username }}</p>
+            <p><strong>Description:</strong> {{ item.description }}</p>
+            <p>
+                <strong>Trip:</strong>
+                {% if item.trip %}
+                    {{ item.trip }}
+                {% else %}
+                    Not specified
+                {% endif %}
+            </p>
+            <p><strong>Current Status:</strong> {{ item.get_status_display }}</p>
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">New Status</label>
+            {{ form.status }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Status</button>
+        <a href="{% url 'staff_lost_items' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

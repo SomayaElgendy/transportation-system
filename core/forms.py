@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ticket, Town, Profile
+from .models import Ticket, Town, Profile, LostItem
 from django.contrib.auth.forms import UserCreationForm
 
 #this form is used for ticket creation (only asks for seat number)
@@ -59,3 +59,27 @@ class PassengerSignupForm(UserCreationForm):
         model = Profile
         fields = ['username', 'email', 'password1', 'password2']
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Profile.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already registered.")
+        return email
+
+class LostItemForm(forms.ModelForm):
+    class Meta:
+        model = LostItem
+        fields = ['trip', 'item_name', 'description']
+        widgets = {
+            'trip': forms.Select(attrs={'class': 'form-control'}),
+            'item_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+
+
+class LostItemStatusForm(forms.ModelForm):
+    class Meta:
+        model = LostItem
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
